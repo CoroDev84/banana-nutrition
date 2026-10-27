@@ -7,7 +7,7 @@ import {
   isApiConfigured,
   onUserChanged,
   signOutUser,
-} from "./nutrition-firebase.js";
+} from "./nutrition-firebase.js?v=20261027-github";
 
 const state = {
   currentDate: localDateString(new Date()),

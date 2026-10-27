@@ -31,3 +31,5 @@ button{min-height:44px;border:0;background:none;color:inherit;padding:8px 12px;b
   min-width:0;
   padding:0;
 }
+
+.login-methods{display:grid;gap:10px;margin-top:16px}.login-methods button{width:100%}#existing-account-note{margin-top:16px}#sign-in-settings{border-top:1px solid var(--border);padding-top:12px}

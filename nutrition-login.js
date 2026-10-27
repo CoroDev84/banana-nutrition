@@ -1,45 +1,31 @@
-import { completeRedirectSignIn, onUserChanged, signInWithGoogle } from "./nutrition-firebase.js";
+import { authErrorMessage, completeRedirectSignIn, getEnabledProviders, onUserChanged, signInWithProvider } from "./nutrition-firebase.js?v=20261027-github";
 
-
-function getAppHomePath() {
-  return document.body?.dataset.appHome || "index.html";
-}
+const buttons = [...document.querySelectorAll("[data-sign-in]")];
+const enabled = getEnabledProviders();
+for (const button of buttons) button.hidden = !enabled.some(({ key }) => key === button.dataset.signIn);
+document.getElementById("existing-account-note").hidden = enabled.length === 1;
 
 function setStatus(message, variant = "") {
   const banner = document.getElementById("login-status");
   banner.textContent = message;
-  banner.className = "status-banner visible";
-  if (variant) {
-    banner.classList.add(variant);
-  }
+  banner.className = "status-banner visible " + variant;
 }
 
 async function boot() {
-  const yearElement = document.getElementById("year");
-  if (yearElement) {
-    yearElement.textContent = new Date().getFullYear();
-  }
-
-  try {
-    await completeRedirectSignIn();
-  } catch (error) {
-    setStatus(error.message || "Unable to finish Google sign-in.", "error");
-  }
-
+  try { await completeRedirectSignIn(); }
+  catch (error) { setStatus(authErrorMessage(error), "error"); }
   onUserChanged((user) => {
-    if (user) {
-      window.location.href = getAppHomePath();
-    }
+    if (user) window.location.replace(document.body?.dataset.appHome || "index.html");
   });
-
-  document.getElementById("google-sign-in").addEventListener("click", async () => {
-    setStatus("Opening Google sign-in...", "success");
-    try {
-      await signInWithGoogle();
-    } catch (error) {
-      setStatus(error.message || "Google sign-in failed.", "error");
-    }
+  for (const button of buttons) button.addEventListener("click", async () => {
+    if (button.disabled) return;
+    const provider = enabled.find(({ key }) => key === button.dataset.signIn);
+    if (!provider) return;
+    buttons.forEach((item) => { item.disabled = true; });
+    setStatus("Opening " + provider.name + " sign-in…");
+    try { await signInWithProvider(provider.key); }
+    catch (error) { setStatus(authErrorMessage(error), "error"); }
+    finally { buttons.forEach((item) => { item.disabled = false; }); }
   });
 }
-
 boot();

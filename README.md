@@ -33,3 +33,13 @@ Run `python -m http.server 8000` in this directory and open `http://localhost:80
 ## Status
 
 Prepared as a fresh standalone repository. GitHub publication and new-domain authentication/CORS setup are pending selection of the GitHub owner. Existing live data is not copied into this repository.
+
+## Google and GitHub sign-in
+
+Google and GitHub are the only active providers. GitHub is enabled in nutrition-config.js following Firebase provider setup. The app uses Firebase popups and requests GitHub email access, not repository access. No passwords or provider secrets are stored here.
+
+Existing users should sign in with Google first, then connect GitHub under Account > Sign-in methods. Linking keeps the original Firebase UID and records; credential conflicts never automatically merge or delete accounts. The original personal-site mobile version shares Firebase users/data but has a separate browser session.
+
+Local source is ready for publication; this change has not been pushed or deployed. Deploy the prepared backend optional-email/profile-preservation update before publishing. Preserve explicitly empty ALLOWED_EMAILS and existing environment variables. Then push the reviewed frontend changes to the Pages branch and test real login/linking on mobile and desktop.
+
+Run offline helper checks with: node tests/auth.test.cjs. Mocked checks do not replace real OAuth tests. Microsoft and Facebook are out of the current release.

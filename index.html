@@ -10,12 +10,12 @@
 <meta content="Banana Nutrition: food diary, personal nutrition goals, walks and weight tracking." name="description"/>
 
 <meta content="noindex,nofollow" name="robots"/>
-<link href="nutrition.css?v=20261026-food-alignment" rel="stylesheet"/>
+<link href="nutrition.css?v=20261027-github" rel="stylesheet"/>
 <link href="banana-mascot-v1-48.png" rel="icon" sizes="48x48" type="image/png"/><link href="banana-mascot-v1-180.png" rel="apple-touch-icon" sizes="180x180" type="image/png"/><link href="banana-nutrition.webmanifest?v=mascot-v1" rel="manifest"/><meta content="Banana Nutrition" name="application-name"/><meta content="Banana Nutrition" name="apple-mobile-web-app-title"/><meta content="yes" name="apple-mobile-web-app-capable"/></head>
 <body class="nutrition-mobile-page" data-login-page="login.html">
 <div class="mobile-app-shell">
 <main class="mobile-app-frame">
-<header class="mobile-app-bar"><span class="brand">Banana Nutrition</span><details class="account-menu"><summary aria-label="Account">Account</summary><div class="account-panel"><img alt="" hidden="" id="profile-photo"/><strong id="profile-name">Loading…</strong><span class="small-note" id="profile-email"></span><button class="ghost-action" id="sign-out" type="button">Sign out</button></div></details></header>
+<header class="mobile-app-bar"><span class="brand">Banana Nutrition</span><details class="account-menu"><summary aria-label="Account">Account</summary><div class="account-panel"><img alt="" hidden="" id="profile-photo"/><strong id="profile-name">Loading…</strong><span class="small-note" id="profile-email"></span><section hidden id="sign-in-settings" aria-labelledby="sign-in-heading"><h3 id="sign-in-heading">Sign-in methods</h3><p class="small-note">Connect another login to keep using this account and its history.</p><div class="login-methods" id="linked-providers"></div><p class="small-note" id="link-status" role="status" aria-live="polite"></p></section><button class="ghost-action" id="sign-out" type="button">Sign out</button></div></details></header>
 <div aria-live="polite" class="status-banner" id="app-status" role="status"></div>
 <p class="config-warning" hidden="" id="config-warning">The service is not configured. Please contact the app owner.</p>
 <div id="day-controls"><div class="date-bar"><button aria-label="Previous day" id="previous-day" type="button">‹</button><label class="date-picker"><span id="date-label">Today</span><input aria-label="Choose diary date" id="dashboard-date" type="date"/></label><button aria-label="Next day" id="next-day" type="button">›</button></div><button class="text-action" hidden="" id="back-to-today" type="button">Back to today</button></div><nav aria-label="Food sections" class="food-tabs" hidden="" id="food-tabs"><button data-screen-link="meals">Diary</button><button data-screen-link="saved">Favorites</button><button data-screen-link="saved-meals">Saved meals</button></nav><div class="screen-stack">
@@ -279,7 +279,8 @@
 <nav aria-label="Bottom navigation" class="bottom-dock"><a data-screen-link="today" href="#today"><span aria-hidden="true">◷</span>Today</a><a data-screen-link="meals" href="#meals"><span aria-hidden="true">☷</span>Food</a><a data-screen-link="goals" href="#goals"><span aria-hidden="true">↗</span>Goals</a></nav>
 </main>
 </div>
-<script src="./nutrition-config.js"></script>
-<script src="nutrition-app.js?v=20261025-redesign" type="module"></script>
+<script src="./nutrition-config.js?v=20261027-github"></script>
+<script src="nutrition-app.js?v=20261027-github" type="module"></script>
+<script src="account-sign-in.js?v=20261027-github" type="module"></script>
 </body>
 </html>
