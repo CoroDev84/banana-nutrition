@@ -1,0 +1,16 @@
+# Never publish local credentials or exported personal records.
+.env
+.env.*
+!.env.example
+*service-account*.json
+*credentials*.json
+*.pem
+*.key
+*.xlsx
+*.csv
+*import-plan*.json
+*receipt*.json
+node_modules/
+__pycache__/
+.DS_Store
+Thumbs.db

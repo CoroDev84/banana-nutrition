@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="light" name="color-scheme"/>
+<meta content="#ffffff" name="theme-color"/>
+<title>Banana Nutrition</title>
+<meta content="Banana Nutrition: food diary, personal nutrition goals, walks and weight tracking." name="description"/>
+
+<meta content="noindex,nofollow" name="robots"/>
+<link href="nutrition.css?v=20261026-food-alignment" rel="stylesheet"/>
+<link href="banana-mascot-v1-48.png" rel="icon" sizes="48x48" type="image/png"/><link href="banana-mascot-v1-180.png" rel="apple-touch-icon" sizes="180x180" type="image/png"/><link href="banana-nutrition.webmanifest?v=mascot-v1" rel="manifest"/><meta content="Banana Nutrition" name="application-name"/><meta content="Banana Nutrition" name="apple-mobile-web-app-title"/><meta content="yes" name="apple-mobile-web-app-capable"/></head>
+<body class="nutrition-mobile-page" data-login-page="login.html">
+<div class="mobile-app-shell">
+<main class="mobile-app-frame">
+<header class="mobile-app-bar"><span class="brand">Banana Nutrition</span><details class="account-menu"><summary aria-label="Account">Account</summary><div class="account-panel"><img alt="" hidden="" id="profile-photo"/><strong id="profile-name">Loading…</strong><span class="small-note" id="profile-email"></span><button class="ghost-action" id="sign-out" type="button">Sign out</button></div></details></header>
+<div aria-live="polite" class="status-banner" id="app-status" role="status"></div>
+<p class="config-warning" hidden="" id="config-warning">The service is not configured. Please contact the app owner.</p>
+<div id="day-controls"><div class="date-bar"><button aria-label="Previous day" id="previous-day" type="button">‹</button><label class="date-picker"><span id="date-label">Today</span><input aria-label="Choose diary date" id="dashboard-date" type="date"/></label><button aria-label="Next day" id="next-day" type="button">›</button></div><button class="text-action" hidden="" id="back-to-today" type="button">Back to today</button></div><nav aria-label="Food sections" class="food-tabs" hidden="" id="food-tabs"><button data-screen-link="meals">Diary</button><button data-screen-link="saved">Favorites</button><button data-screen-link="saved-meals">Saved meals</button></nav><div class="screen-stack">
+<section aria-hidden="false" class="app-screen active" data-app-screen="today">
+<section class="hero-card">
+<div class="section-heading"><h2 id="nutrition-heading">Today’s nutrition</h2><button class="text-action" data-screen-link="targets">Edit targets</button></div>
+<div class="calorie-value"><span id="total-calories">—</span><span class="target-value" id="target-calories"></span></div>
+<progress aria-label="Calories" hidden="" id="progress-calories" max="100" value="0"></progress>
+<div class="section-heading small-note"><span id="calorie-remaining"></span><span id="calorie-percent"></span></div>
+<div class="macro-totals">
+<div><h3>Protein</h3><div class="macro-value"><span id="total-protein">—</span><span class="target-value" id="target-protein">g</span></div><progress aria-label="Protein" hidden="" id="progress-protein" max="100" value="0"></progress></div>
+<div><h3>Carbs</h3><div class="macro-value"><span id="total-carbs">—</span><span class="target-value" id="target-carbs">g</span></div><progress aria-label="Carbs" hidden="" id="progress-carbs" max="100" value="0"></progress></div>
+<div><h3>Fat</h3><div class="macro-value"><span id="total-fat">—</span><span class="target-value" id="target-fat">g</span></div><progress aria-label="Fat" hidden="" id="progress-fat" max="100" value="0"></progress></div>
+</div>
+<details class="more-nutrients"><summary>More nutrients</summary>
+<div class="extra-nutrient"><div class="section-heading"><span>Sugar</span><span><span id="total-sugars">—</span><span id="target-sugars"></span></span></div><progress aria-label="Sugar" hidden="" id="progress-sugars" max="100" value="0"></progress></div>
+<div class="extra-nutrient"><div class="section-heading"><span>Fiber</span><span><span id="total-fiber">—</span><span id="target-fiber"></span></span></div><progress aria-label="Fiber" hidden="" id="progress-fiber" max="100" value="0"></progress></div>
+<div class="extra-nutrient"><div class="section-heading"><span>Sodium</span><span><span id="total-sodium">—</span><span id="target-sodium"></span></span></div><progress aria-label="Sodium" hidden="" id="progress-sodium" max="100" value="0"></progress></div>
+<div class="extra-nutrient"><div class="section-heading"><span>Saturated fat</span><span><span id="total-saturatedFat">—</span><span id="target-saturatedFat"></span></span></div><progress aria-label="Saturated fat" hidden="" id="progress-saturatedFat" max="100" value="0"></progress></div>
+<p class="small-note" hidden="" id="nutrient-coverage"></p>
+</details>
+</section>
+<div class="quick-actions"><button class="primary-action" data-screen-link="scan">▥ Scan food</button><button class="secondary-action" data-screen-link="log">＋ Add food</button></div>
+<section><div class="section-heading"><h2>Current goals</h2><button class="text-action" data-screen-link="goals">View all →</button></div><div class="card" id="fitness-overview"><p class="small-note">Loading goals…</p></div></section>
+<section><div class="section-heading"><h2>Food diary</h2><button class="text-action" data-screen-link="meals">Open diary →</button></div><div id="recent-food"></div></section>
+</section>
+<section aria-hidden="true" class="app-screen" data-app-screen="log" data-screen-label="Log" hidden="">
+<section class="card">
+<p class="selected-day small-note"></p><div class="section-heading"><h1>Add food</h1><button class="text-action" data-screen-link="meals">← Diary</button></div>
+<form class="panel-stack" id="entry-form">
+<input id="entry-food-id" type="hidden"/>
+<input id="serving-size" type="hidden"/>
+<input id="serving-unit" type="hidden"/>
+<div class="form-grid">
+<div class="field">
+<label for="entry-date">Date</label>
+<input id="entry-date" required="" type="date"/>
+</div>
+<div class="field">
+<label for="entry-meal">Meal</label>
+<select id="entry-meal" required="">
+<option value="breakfast">Breakfast</option>
+<option value="lunch">Lunch</option>
+<option value="dinner">Dinner</option>
+<option value="snacks">Snacks</option>
+</select>
+</div>
+<div class="field full-width">
+<label for="food-name">Food name</label>
+<input autocomplete="off" id="food-name" placeholder="Greek yogurt" required="" type="text"/>
+<div class="small-note">Type at least 3 letters to load USDA suggestions, then tap a match to fill the form.</div>
+<div class="search-status small-note" id="food-search-status"></div>
+<div class="food-search-results" hidden="" id="food-search-results"></div>
+</div>
+<div class="field">
+<label for="brand-name">Brand</label>
+<input id="brand-name" placeholder="Chobani" type="text"/>
+</div>
+<div class="field">
+<label for="barcode-snapshot">Barcode</label>
+<input id="barcode-snapshot" placeholder="Optional" type="text"/>
+</div>
+<div class="field">
+<label for="serving-multiplier">Serving multiplier</label>
+<input id="serving-multiplier" min="0.1" step="0.1" type="number" value="1"/>
+</div>
+<div class="field">
+<label for="serving-label">Serving measure</label>
+<input id="serving-label" placeholder="1 cup (240 ml)" type="text"/>
+</div>
+<div class="field">
+<label for="calories">Calories</label>
+<input id="calories" min="0" step="0.1" type="number" value="0"/>
+</div>
+<div class="field">
+<label for="protein">Protein</label>
+<input id="protein" min="0" step="0.1" type="number" value="0"/>
+</div>
+<div class="field">
+<label for="carbs">Carbs</label>
+<input id="carbs" min="0" step="0.1" type="number" value="0"/>
+</div>
+<div class="field">
+<label for="fat">Fat</label>
+<input id="fat" min="0" step="0.1" type="number" value="0"/>
+</div>
+<details class="field full-width nutrient-form-section">
+<summary>Additional nutrition</summary>
+<div class="nutrient-form-grid">
+<div class="field">
+<label for="nutrient-fiber">Fiber (g)</label>
+<input id="nutrient-fiber" min="0" placeholder="Optional" step="0.1" type="number"/>
+</div>
+<div class="field">
+<label for="nutrient-sugars">Sugars (g)</label>
+<input id="nutrient-sugars" min="0" placeholder="Optional" step="0.1" type="number"/>
+</div>
+<div class="field">
+<label for="nutrient-added-sugars">Added sugars (g)</label>
+<input id="nutrient-added-sugars" min="0" placeholder="Optional" step="0.1" type="number"/>
+</div>
+<div class="field">
+<label for="nutrient-saturated-fat">Sat fat (g)</label>
+<input id="nutrient-saturated-fat" min="0" placeholder="Optional" step="0.1" type="number"/>
+</div>
+<div class="field">
+<label for="nutrient-trans-fat">Trans fat (g)</label>
+<input id="nutrient-trans-fat" min="0" placeholder="Optional" step="0.1" type="number"/>
+</div>
+<div class="field">
+<label for="nutrient-cholesterol">Cholesterol (mg)</label>
+<input id="nutrient-cholesterol" min="0" placeholder="Optional" step="0.1" type="number"/>
+</div>
+<div class="field">
+<label for="nutrient-sodium">Sodium (mg)</label>
+<input id="nutrient-sodium" min="0" placeholder="Optional" step="0.1" type="number"/>
+</div>
+<div class="field">
+<label for="nutrient-potassium">Potassium (mg)</label>
+<input id="nutrient-potassium" min="0" placeholder="Optional" step="0.1" type="number"/>
+</div>
+<div class="field">
+<label for="nutrient-calcium">Calcium (mg)</label>
+<input id="nutrient-calcium" min="0" placeholder="Optional" step="0.1" type="number"/>
+</div>
+<div class="field">
+<label for="nutrient-iron">Iron (mg)</label>
+<input id="nutrient-iron" min="0" placeholder="Optional" step="0.1" type="number"/>
+</div>
+<div class="field">
+<label for="nutrient-vitamin-d">Vitamin D (mcg)</label>
+<input id="nutrient-vitamin-d" min="0" placeholder="Optional" step="0.1" type="number"/>
+</div>
+</div>
+</details>
+<div class="field full-width">
+<label for="entry-notes">Notes</label>
+<textarea id="entry-notes" placeholder="Optional notes about the meal or serving."></textarea>
+</div>
+</div>
+<div class="actions-row">
+<button class="primary-action" id="entry-submit" type="submit">Save Entry</button>
+<button class="secondary-action" id="favorite-save" type="button">Save as Favorite</button>
+<button class="ghost-action" hidden="" id="entry-cancel" type="button">Cancel Edit</button>
+</div>
+</form>
+</section>
+</section>
+<section aria-hidden="true" class="app-screen" data-app-screen="scan" data-screen-label="Scan" hidden="">
+<section class="card">
+<p class="selected-day small-note"></p><div class="section-heading"><h1>Scan barcode</h1><button class="text-action" data-screen-link="meals">← Diary</button></div>
+<form class="panel-stack" id="barcode-form">
+<div class="field">
+<label for="barcode-input">Barcode</label>
+<input id="barcode-input" inputmode="numeric" name="barcode" placeholder="012345678905" type="text"/>
+</div>
+<div class="actions-row">
+<button class="secondary-action" type="submit">Lookup Barcode</button>
+<button class="primary-action" id="barcode-scan-start" type="button">Scan with Camera</button>
+<button class="ghost-action" hidden="" id="barcode-scan-stop" type="button">Stop Camera</button>
+</div>
+</form>
+<p class="scanner-status small-note" id="barcode-scan-status">Use the camera on supported mobile browsers, or enter the barcode manually.</p>
+<div class="scanner-shell" hidden="" id="barcode-scan-shell">
+<div class="scanner-frame">
+<video autoplay="" id="barcode-camera-preview" muted="" playsinline=""></video>
+<div aria-hidden="true" class="scanner-guides"></div>
+</div>
+</div>
+<div class="small-note" id="lookup-result"></div>
+</section>
+</section>
+<section aria-hidden="true" class="app-screen" data-app-screen="saved" data-screen-label="Saved" hidden=""><div class="quick-actions"><button class="primary-action" data-screen-link="scan">▥ Scan food</button><button class="secondary-action" data-screen-link="log">＋ Add food</button></div>
+<section class="card">
+<div class="section-heading"><h1>Favorites</h1></div>
+<div class="saved-section">
+<div class="favorites-list" id="favorites-list">
+<div class="empty-state">No favorites yet. Fill the form once, then save it here.</div>
+</div>
+</div>
+</section>
+</section>
+<section aria-hidden="true" class="app-screen" data-app-screen="meals" data-screen-label="Meals" hidden=""><div class="quick-actions"><button class="primary-action" data-screen-link="scan">▥ Scan food</button><button class="secondary-action" data-screen-link="log">＋ Add food</button></div>
+<section class="card">
+<div class="section-heading"><h1>Food diary</h1></div>
+<div class="meal-grid">
+<section class="meal-column" data-meal-column="breakfast">
+<div class="meal-column-header">
+<h3>Breakfast</h3>
+<button class="ghost-action compact-action" data-save-meal="breakfast" type="button">Save</button>
+</div>
+<div class="entry-list"></div>
+</section>
+<section class="meal-column" data-meal-column="lunch">
+<div class="meal-column-header">
+<h3>Lunch</h3>
+<button class="ghost-action compact-action" data-save-meal="lunch" type="button">Save</button>
+</div>
+<div class="entry-list"></div>
+</section>
+<section class="meal-column" data-meal-column="dinner">
+<div class="meal-column-header">
+<h3>Dinner</h3>
+<button class="ghost-action compact-action" data-save-meal="dinner" type="button">Save</button>
+</div>
+<div class="entry-list"></div>
+</section>
+<section class="meal-column" data-meal-column="snacks">
+<div class="meal-column-header">
+<h3>Snacks</h3>
+<button class="ghost-action compact-action" data-save-meal="snacks" type="button">Save</button>
+</div>
+<div class="entry-list"></div>
+</section>
+</div>
+</section>
+</section>
+<section aria-hidden="true" class="app-screen" data-app-screen="saved-meals" hidden=""><div class="quick-actions"><button class="primary-action" data-screen-link="scan">▥ Scan food</button><button class="secondary-action" data-screen-link="log">＋ Add food</button></div><h1>Saved meals</h1><div class="saved-section">
+<div class="saved-meals-list" id="saved-meals-list">
+<div class="empty-state">No saved meals yet. Log multiple items in Meals, then save the group here.</div>
+</div>
+</div></section><section aria-hidden="true" class="app-screen" data-app-screen="goals" hidden="">
+<div class="section-heading"><h1>Goals</h1><button class="text-action" data-screen-link="fitness-settings">Edit goals</button></div>
+<p class="small-note" id="wellness-status" role="status"></p>
+<div id="fitness-dashboard"></div>
+<div class="quick-actions"><button class="primary-action" data-record-kind="walk">＋ Log walk</button><button class="secondary-action" data-record-kind="weight">＋ Log weight</button></div>
+<button class="secondary-action full-width" data-record-kind="lift">＋ Record a lift</button>
+<details class="card"><summary>Fitness history</summary><div id="fitness-history"></div></details>
+</section>
+<section aria-hidden="true" class="app-screen" data-app-screen="targets" hidden="">
+<button class="text-action" data-screen-link="today">← Back</button><h1>Daily targets</h1>
+<form class="panel-stack" id="targets-form"><p class="selected-day small-note"></p>
+<label>Apply to<select id="targets-scope"><option value="ongoing">Selected date and future days</option><option value="day">Selected date only</option></select></label>
+<div class="form-grid" id="target-fields"></div>
+<details class="card"><summary>Optional nutrient targets</summary><div class="form-grid" id="extra-target-fields"></div></details>
+<p class="small-note">Leave a target blank to show totals only.</p><button class="primary-action" type="submit">Save targets</button>
+</form>
+</section>
+<section aria-hidden="true" class="app-screen" data-app-screen="fitness-settings" hidden="">
+<button class="text-action" data-screen-link="goals">← Back</button><h1>Edit goals</h1>
+<form class="panel-stack" id="fitness-goals-form">
+<label>Weight goal (lb)<input id="weight-goal" max="2000" min="0.1" placeholder="No target" step="0.1" type="number"/></label>
+<div class="form-grid"><label>Walking goal (mi)<input id="walking-goal" max="100000" min="0.1" placeholder="No target" step="0.1" type="number"/></label><label>Year<input id="walking-year" max="2200" min="1900" required="" type="number"/></label></div>
+<h2>Strength goals</h2><div id="strength-goal-fields"></div><button class="secondary-action" id="add-strength-goal" type="button">＋ Add exercise</button>
+<button class="primary-action" type="submit">Save goals</button>
+</form>
+</section>
+<section aria-hidden="true" class="app-screen" data-app-screen="fitness-log" hidden="">
+<button class="text-action" data-screen-link="goals">← Back</button><h1 id="fitness-form-title">Log walk</h1>
+<form class="panel-stack" id="fitness-record-form">
+<input id="fitness-record-id" type="hidden"/><input id="fitness-kind" type="hidden"/>
+<label>Date<input id="fitness-date" required="" type="date"/></label>
+<label hidden="" id="exercise-field">Exercise<input id="fitness-exercise" list="known-exercises" maxlength="80"/><datalist id="known-exercises"></datalist></label>
+<label><span id="fitness-value-label">Distance (mi)</span><input id="fitness-value" min="0.1" required="" step="0.1" type="number"/></label>
+<label hidden="" id="reps-field">Reps (optional)<input id="fitness-reps" max="1000" min="1" step="1" type="number"/></label>
+<label id="duration-field">Duration in minutes (optional)<input id="fitness-duration" max="1440" min="0.1" step="0.1" type="number"/></label>
+<button class="primary-action" type="submit">Save record</button>
+</form>
+</section>
+</div>
+<nav aria-label="Bottom navigation" class="bottom-dock"><a data-screen-link="today" href="#today"><span aria-hidden="true">◷</span>Today</a><a data-screen-link="meals" href="#meals"><span aria-hidden="true">☷</span>Food</a><a data-screen-link="goals" href="#goals"><span aria-hidden="true">↗</span>Goals</a></nav>
+</main>
+</div>
+<script src="./nutrition-config.js"></script>
+<script src="nutrition-app.js?v=20261025-redesign" type="module"></script>
+</body>
+</html>
