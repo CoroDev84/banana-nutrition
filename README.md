@@ -43,3 +43,20 @@ Existing users should sign in with Google first, then connect GitHub under Accou
 Local source is ready for publication; this change has not been pushed or deployed. Deploy the prepared backend optional-email/profile-preservation update before publishing. Preserve explicitly empty ALLOWED_EMAILS and existing environment variables. Then push the reviewed frontend changes to the Pages branch and test real login/linking on mobile and desktop.
 
 Run offline helper checks with: node tests/auth.test.cjs. Mocked checks do not replace real OAuth tests. Microsoft and Facebook are out of the current release.
+
+## Saved barcode corrections — November 2, 2026
+
+Implemented locally: `saved-products.js` converts consumed nutrition into one-serving corrections; the food form offers Save barcode correction separately from Save/Update Entry. Barcode lookups prefer the authenticated user's saved product over public API data. Explicit zeros and unknown optional nutrients persist. Previous diary entries, favorites and saved meals are not rewritten.
+
+Requires the corresponding shared backend release: authenticated GET/PUT `/api/saved-products/{barcode}` and saved-product-first `/api/foods/lookup`. Firestore stores `users/{uid}/saved_products/{barcode padded to 14 digits}`; first save creates the collection. Backend also fixes per-100g fallback labels and mixed-basis optional nutrients, and allows clearing optional diary fields. No backend code or secrets belong in this static repository.
+
+Deploy the shared backend first, then publish both mobile frontends. This work is local only: no push, deployment or live data change. Validate correction save/reload/repeated scan, consumed totals and account isolation after deployment. Run `node tests/saved-products.test.cjs` and `node tests/auth.test.cjs` for offline checks.
+
+## Repository synchronization
+
+Every future Banana Nutrition change must be reviewed and applied to the corresponding app files in both this repository and the html repository in the same session. Preserve site-specific login routes, metadata and hosting configuration. The backend remains shared and maintained separately in html; record backend-only integration/release changes here. The main roadmap contains the detailed working agreement.
+
+
+## Deployment update — November 2, 2026
+
+The shared backend release is now deployed as `nutrition-api-00017-9bj`, serving 100% of traffic. Health, saved-product route availability and unauthenticated rejection checks passed. Existing environment variables, IAM and service settings were preserved. This supersedes earlier backend-not-deployed notes. Both current mobile frontend releases still need publication, followed by authenticated save/reload/scan and account-isolation checks. No live product or diary records were changed by the deployment.

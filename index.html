@@ -47,8 +47,7 @@
 <p class="selected-day small-note"></p><div class="section-heading"><h1>Add food</h1><button class="text-action" data-screen-link="meals">← Diary</button></div>
 <form class="panel-stack" id="entry-form">
 <input id="entry-food-id" type="hidden"/>
-<input id="serving-size" type="hidden"/>
-<input id="serving-unit" type="hidden"/>
+
 <div class="form-grid">
 <div class="field">
 <label for="entry-date">Date</label>
@@ -80,27 +79,36 @@
 </div>
 <div class="field">
 <label for="serving-multiplier">Serving multiplier</label>
-<input id="serving-multiplier" min="0.1" step="0.1" type="number" value="1"/>
+<input id="serving-multiplier" required="" min="0.01" step="any" type="number" value="1"/>
 </div>
 <div class="field">
 <label for="serving-label">Serving measure</label>
 <input id="serving-label" placeholder="1 cup (240 ml)" type="text"/>
 </div>
 <div class="field">
+<label for="serving-size">Quantity in one serving (optional)</label>
+<input id="serving-size" min="0.01" step="any" type="number" placeholder="250"/>
+</div>
+<div class="field">
+<label for="serving-unit">Serving unit (optional)</label>
+<input id="serving-unit" maxlength="32" type="text" placeholder="g, ml, cup or pouch"/>
+</div>
+<p class="small-note full-width">Nutrition below is for the amount eaten (serving measure × multiplier). To copy a package label, use multiplier 1 first, then adjust the amount eaten. Leave unknown additional nutrients blank.</p>
+<div class="field">
 <label for="calories">Calories</label>
-<input id="calories" min="0" step="0.1" type="number" value="0"/>
+<input id="calories" required="" min="0" step="0.1" type="number" value="0"/>
 </div>
 <div class="field">
 <label for="protein">Protein</label>
-<input id="protein" min="0" step="0.1" type="number" value="0"/>
+<input id="protein" required="" min="0" step="0.1" type="number" value="0"/>
 </div>
 <div class="field">
 <label for="carbs">Carbs</label>
-<input id="carbs" min="0" step="0.1" type="number" value="0"/>
+<input id="carbs" required="" min="0" step="0.1" type="number" value="0"/>
 </div>
 <div class="field">
 <label for="fat">Fat</label>
-<input id="fat" min="0" step="0.1" type="number" value="0"/>
+<input id="fat" required="" min="0" step="0.1" type="number" value="0"/>
 </div>
 <details class="field full-width nutrient-form-section">
 <summary>Additional nutrition</summary>
@@ -156,6 +164,11 @@
 <textarea id="entry-notes" placeholder="Optional notes about the meal or serving."></textarea>
 </div>
 </div>
+<section aria-label="Saved barcode correction">
+<button class="secondary-action" id="barcode-correction-save" type="button">Save barcode correction</button>
+<p class="small-note">Saves nutrition for one serving to your account for future scans. This does not save or update the diary entry; use the entry button below for that.</p>
+<p class="small-note" id="barcode-correction-status" role="status" aria-live="polite"></p>
+</section>
 <div class="actions-row">
 <button class="primary-action" id="entry-submit" type="submit">Save Entry</button>
 <button class="secondary-action" id="favorite-save" type="button">Save as Favorite</button>
@@ -280,7 +293,7 @@
 </main>
 </div>
 <script src="./nutrition-config.js?v=20261027-github"></script>
-<script src="nutrition-app.js?v=20261027-github" type="module"></script>
+<script src="nutrition-app.js?v=20261102-corrections" type="module"></script>
 <script src="account-sign-in.js?v=20261027-github" type="module"></script>
 </body>
 </html>

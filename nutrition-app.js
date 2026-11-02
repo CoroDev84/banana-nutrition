@@ -1,3 +1,4 @@
+import { buildSavedProduct } from "./saved-products.js?v=20261102-corrections";
 import { initWellness } from "./wellness-ui.js?v=20261025-redesign";
 import {
   auth,
@@ -14,6 +15,7 @@ const state = {
   currentScreen: null,
   dayRequest: 0,
   entrySaving: false,
+  productSaving: false,
   editingEntryId: null,
   baseEntryMacros: null,
   baseEntryNutrients: null,
@@ -328,6 +330,7 @@ function applyServingMultiplierToForm() {
 }
 
 function applyFoodToEntryForm(food) {
+  document.getElementById("barcode-correction-status").textContent = food.source === "saved_product" ? "Using your saved barcode correction." : "";
   document.getElementById("entry-food-id").value = food.sourceId ? `${food.source}:${food.sourceId}` : "";
   document.getElementById("food-name").value = food.name || "";
   document.getElementById("brand-name").value = food.brand || "";
@@ -415,7 +418,7 @@ function updateScannerUi(isActive) {
 
 function normalizeBarcodeValue(rawValue) {
   const compactValue = String(rawValue || "").trim().replace(/\s+/g, "");
-  const digitsOnly = compactValue.replace(/\D/g, "");
+  const digitsOnly = compactValue;
   return /^\d{8,14}$/.test(digitsOnly) ? digitsOnly : "";
 }
 
@@ -1032,6 +1035,7 @@ function queueFoodSearch(query) {
 }
 
 function resetEntryForm() {
+  document.getElementById("barcode-correction-status").textContent = "";
   state.editingEntryId = null;
   state.baseEntryMacros = null;
   state.baseEntryNutrients = null;
@@ -1050,6 +1054,7 @@ function resetEntryForm() {
 }
 
 function fillEntryForm(entry) {
+  document.getElementById("barcode-correction-status").textContent = "";
   state.editingEntryId = entry.id;
   clearFoodSearchUi();
   document.getElementById("entry-meal").value = entry.meal;
@@ -1078,6 +1083,7 @@ function fillEntryForm(entry) {
 }
 
 function fillEntryFormFromFavorite(favorite) {
+  document.getElementById("barcode-correction-status").textContent = "";
   const defaultMultiplier = Number(favorite.servingMultiplier || 1) || 1;
 
   resetEntryForm();
@@ -1400,7 +1406,7 @@ function buildFavoritePayload() {
 
 async function handleEntrySubmit(event) {
   event.preventDefault();
-  if (state.entrySaving) return;
+  if (state.entrySaving || state.productSaving) return;
   state.entrySaving = true;
   document.getElementById("entry-submit").disabled = true;
   clearBanner();
@@ -1429,6 +1435,33 @@ async function handleEntrySubmit(event) {
   } finally {
     state.entrySaving = false;
     document.getElementById("entry-submit").disabled = false;
+  }
+}
+
+async function handleBarcodeCorrectionSave() {
+  if (state.productSaving || state.entrySaving) return;
+  const form = document.getElementById("entry-form");
+  if (!form.reportValidity()) return;
+  const status = document.getElementById("barcode-correction-status");
+  // Snapshot the form before the request, and prevent changes during saving.
+  let controls = [];
+  try {
+    const { barcode, product } = buildSavedProduct(buildEntryPayload());
+    state.productSaving = true;
+    clearFoodSearchUi();
+    controls = Array.from(form.querySelectorAll("input, select, textarea, button"))
+      .map(element => ({ element, disabled: element.disabled }));
+    controls.forEach(({ element }) => { element.disabled = true; });
+    status.textContent = "Saving barcode correction…";
+    await apiFetch(`/api/saved-products/${encodeURIComponent(barcode)}`, {
+      method: "PUT", body: JSON.stringify(product),
+    });
+    status.textContent = "Barcode correction saved for future scans. Save or update the entry below to record this meal.";
+  } catch (error) {
+    status.textContent = error.message || "Could not save the correction. Your form values are still here; try again.";
+  } finally {
+    controls.forEach(({ element, disabled }) => { element.disabled = disabled; });
+    state.productSaving = false;
   }
 }
 
@@ -1486,6 +1519,7 @@ function bindPageActions() {
   document.getElementById("dashboard-date").value = state.currentDate;
   document.getElementById("entry-date").value = state.currentDate;
   document.getElementById("entry-form").addEventListener("submit", handleEntrySubmit);
+  document.getElementById("barcode-correction-save").addEventListener("click", handleBarcodeCorrectionSave);
   document.getElementById("food-name").addEventListener("input", (event) => {
     document.getElementById("entry-food-id").value = "";
     queueFoodSearch(event.target.value);
